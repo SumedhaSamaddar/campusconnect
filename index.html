@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusConnect — Help Network</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/glass.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body class="relative overflow-x-hidden">
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<header class="relative z-10 glass sticky top-0">
+  <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+    <h1 class="text-xl font-bold bg-gradient-to-r from-pink-300 via-purple-200 to-cyan-300 bg-clip-text text-transparent">
+      🎓 CampusConnect
+    </h1>
+    <span class="text-xs badge bg-green-400/20 text-green-200 px-3 py-1 rounded-full flex items-center gap-1">
+      <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Live
+    </span>
+  </div>
+</header>
+
+<div class="relative z-10 max-w-4xl mx-auto px-4 mt-5 hidden md:block">
+  <div class="glass rounded-2xl p-1.5 flex gap-1.5">
+    <button onclick="showTab('help')" id="tab-help" class="tab-btn tab-active flex-1 py-2.5 rounded-xl text-sm font-medium">🆘 Help Board</button>
+    <button onclick="showTab('feed')" id="tab-feed" class="tab-btn flex-1 py-2.5 rounded-xl text-sm font-medium">📸 Campus Feed</button>
+    <button onclick="showTab('teacher')" id="tab-teacher" class="tab-btn flex-1 py-2.5 rounded-xl text-sm font-medium">👨‍🏫 Ask Teacher</button>
+    <button onclick="showTab('profile')" id="tab-profile" class="tab-btn flex-1 py-2.5 rounded-xl text-sm font-medium">👤 Profile</button>
+  </div>
+</div>
+
+<div id="content-help" class="relative z-10 max-w-4xl mx-auto px-4 py-5">
+  <div class="glass-strong rounded-2xl p-5 mb-5">
+    <h2 class="font-semibold mb-4 text-white/90 text-lg">Post a Help Request</h2>
+    <input id="help-title" placeholder="What do you need help with?" class="glass-input w-full rounded-xl px-4 py-2.5 mb-3 text-sm">
+    <textarea id="help-desc" placeholder="Short description..." class="glass-input w-full rounded-xl px-4 py-2.5 mb-3 text-sm" rows="2"></textarea>
+    <div class="flex gap-2 mb-3 flex-wrap">
+      <select id="help-cat" class="glass-input rounded-xl px-4 py-2.5 text-sm flex-1 min-w-[140px]">
+        <option>Academic</option><option>Errand</option><option>Resource</option><option>Emergency</option>
+      </select>
+      <label class="glass-input flex items-center gap-2 text-sm px-4 py-2.5 rounded-xl cursor-pointer select-none">
+        <input type="checkbox" id="help-anon" class="accent-purple-400 w-4 h-4"> 🕵️ Anonymous
+      </label>
+    </div>
+    <button onclick="addHelp()" class="btn-glow w-full text-white py-3 rounded-xl text-sm font-semibold">Post Request</button>
+  </div>
+  <div id="help-list" class="space-y-3"></div>
+</div>
+
+<div id="content-feed" class="relative z-10 max-w-4xl mx-auto px-4 py-5 hidden">
+  <div class="glass-strong rounded-2xl p-5 mb-5">
+    <h2 class="font-semibold mb-4 text-white/90 text-lg">Share Campus Proof</h2>
+    <input id="feed-title" placeholder="What's happening on campus?" class="glass-input w-full rounded-xl px-4 py-2.5 mb-3 text-sm">
+    <input id="feed-img" placeholder="Paste image URL (optional)" class="glass-input w-full rounded-xl px-4 py-2.5 mb-3 text-sm">
+    <div class="flex gap-2 mb-3 flex-wrap">
+      <select id="feed-cat" class="glass-input rounded-xl px-4 py-2.5 text-sm flex-1 min-w-[140px]">
+        <option>General</option><option>News</option><option>Lost & Found</option><option>Event</option><option>Warning</option>
+      </select>
+    </div>
+    <input id="feed-source" placeholder="Source URL (required for News)" class="glass-input w-full rounded-xl px-4 py-2.5 mb-3 text-sm">
+    <button onclick="addFeed()" class="btn-glow btn-pink w-full text-white py-3 rounded-xl text-sm font-semibold">Post to Feed</button>
+  </div>
+  <div id="feed-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+</div>
+
+<div id="content-teacher" class="relative z-10 max-w-4xl mx-auto px-4 py-5 hidden">
+  <div class="glass-strong rounded-2xl p-5 mb-5">
+    <h2 class="font-semibold mb-4 text-white/90 text-lg">Request Teacher Help</h2>
+    <input id="t-name" placeholder="Your name (or leave blank for anon)" class="glass-input w-full rounded-xl px-4 py-2.5 mb-3 text-sm">
+    <select id="t-dept" class="glass-input w-full rounded-xl px-4 py-2.5 mb-3 text-sm">
+      <option>Computer Science</option><option>Mathematics</option><option>Physics</option><option>Management</option><option>Other</option>
+    </select>
+    <textarea id="t-msg" placeholder="What do you need from the teacher?" class="glass-input w-full rounded-xl px-4 py-2.5 mb-3 text-sm" rows="2"></textarea>
+    <button onclick="addTeacher()" class="btn-glow btn-teal w-full text-white py-3 rounded-xl text-sm font-semibold">Send Request</button>
+  </div>
+  <div id="teacher-list" class="space-y-3"></div>
+</div>
+
+<div id="content-profile" class="relative z-10 max-w-4xl mx-auto px-4 py-5 hidden"></div>
+
+<footer class="relative z-10 text-center text-xs text-white/40 py-8">Built for Campus Community Help Network · 2025</footer>
+
+<nav class="fixed bottom-0 left-0 right-0 z-20 md:hidden p-2">
+  <div class="glass-strong rounded-2xl mx-auto max-w-md flex items-center justify-around px-2 py-1">
+    <button onclick="showTab('help')" id="bnav-help" class="bottom-nav-btn active"><span class="icon">🏠</span><span>Help</span></button>
+    <button onclick="showTab('feed')" id="bnav-feed" class="bottom-nav-btn"><span class="icon">📸</span><span>Feed</span></button>
+    <button onclick="showTab('teacher')" id="bnav-teacher" class="bottom-nav-btn"><span class="icon">👨‍🏫</span><span>Teachers</span></button>
+    <button onclick="showTab('profile')" id="bnav-profile" class="bottom-nav-btn"><span class="icon">👤</span><span>Profile</span></button>
+  </div>
+</nav>
+
+<!-- Flag Modal Container -->
+<div id="flag-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4"
+     style="background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);">
+  <div class="glass-strong rounded-2xl p-6 max-w-sm w-full">
+    <h3 class="font-bold text-white mb-1">🚩 Report Content</h3>
+    <p class="text-xs text-white/60 mb-4">Help keep CampusConnect safe and trustworthy.</p>
+    <div id="flag-reasons" class="space-y-2 mb-4"></div>
+    <div class="flex gap-2">
+      <button onclick="closeFlagModal()" class="glass-input flex-1 py-2.5 rounded-xl text-sm">Cancel</button>
+      <button onclick="submitFlag()" class="btn-glow flex-1 py-2.5 rounded-xl text-sm font-semibold text-white">Report</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/storage.js"></script>
+<script src="js/moderation.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/help.js"></script>
+<script src="js/feed.js"></script>
+<script src="js/teacher.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
